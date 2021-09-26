@@ -1,0 +1,163 @@
+import random
+
+starter_pokemon = (
+    {'name': 'Bulbizarre', 'life': 10, 'loss': 3, 'gain': 1},
+    {'name': 'Salamèche', 'life': 15, 'loss': 2, 'gain': 2},
+    {'name': 'Dracaufeu', 'life': 20, 'loss': 1, 'gain': 3},
+    {'name': 'Mew', 'life': 25, 'loss': 0, 'gain': 4}  # c'est un secret
+)
+
+wild_pokemon = (
+    {'name': 'Pikachu', 'good_pokemon': True, 'power': 2},
+    {'name': 'Carapuce', 'good_pokemon': True, 'power': 1},
+    {'name': 'Nosferapti', 'good_pokemon': True, 'power': 2},
+    {'name': 'Tortipousse', 'good_pokemon': True, 'power': 1},
+    {'name': 'Magicarpe', 'good_pokemon': True, 'power': 1},
+    {'name': 'Moumouton', 'good_pokemon': True, 'power': 7},  # ***
+    {'name': 'Axoloto', 'good_pokemon': True, 'power': 2},
+    {'name': 'Héliatronc', 'good_pokemon': True, 'power': 3},
+    {'name': 'Lovdisc', 'good_pokemon': True, 'power': 3},
+    {'name': 'Rondoudou', 'good_pokemon': True, 'power': 2},
+    # --------------------------------------------------------------
+    {'name': 'Electrode', 'good_pokemon': False, 'power': 4},
+    {'name': 'Raichu', 'good_pokemon': False, 'power': 3},
+    {'name': 'Miaouss', 'good_pokemon': False, 'power': 5},
+    {'name': 'Monaflémit', 'good_pokemon': False, 'power': 6},
+    {'name': 'Rayquaza', 'good_pokemon': False, 'power': 9},  # ***
+    {'name': 'Rhinoféros', 'good_pokemon': False, 'power': 4},
+    {'name': 'Regigigas', 'good_pokemon': False, 'power': 7},
+    {'name': 'Arceus', 'good_pokemon': False, 'power': 6},
+    {'name': 'Dialga', 'good_pokemon': False, 'power': 6},
+    {'name': 'Palkia', 'good_pokemon': False, 'power': 7},
+)
+
+
+# -----------------------------------------------------------------
+
+# def start():
+# pour rejouer
+
+def starteer():  # comme starter est déjà déclaré en input jsp si je peux le remettre donc j'ai mis starteer
+    while True:
+        print("\nPr Chen ~ So you want to jump into the adventure ? Well...\n")
+        print("Pr. Chen ~ Choose your starter Pokemon... ")
+        starter = input("(B)ulbizarre / (S)alamèche / (D)racaufeu : ")
+
+        if "b" in starter.lower():
+            print("\nPr. Chen ~ Bulbizarre...? Good choice... I guess...\n")
+            return starter_pokemon[0]  # voir 22: return statement
+
+        elif "s" in starter.lower():
+            print("\nPr. Chen ~ Good ! Salamèche is now you companion of adventures\n")
+            return starter_pokemon[1]
+
+        elif "d" in starter.lower():
+            print("\nPr. Chen ~ You choose Dracaufeu ! Weaker than Chuck Norris but still a very good choice.\n")
+            return starter_pokemon[2]
+
+        elif "m" in starter.lower():
+            print("\nPr. Chen ~ Wait... What ? Did you read my papers ?...\n")
+            print("Pr. Chen ~ Whatever... Your starter Pokemon is now Mew")
+            return starter_pokemon[3]
+
+        else:
+            print("\nPr. Chen ~ Sorry my Flamiaou meowed... I didn't hear you...\n")
+
+
+def world():  # pour choisir la difficulté
+     while True:
+        print("\n-- I front of you there's a Sunny Meadow (easy), a Rapid Torrent (difficult) and a Fairy Forest ("
+              "impossible)\n")
+        print("-- Which way you go ? --")
+        difficulty = input("(M)eadow / (T)orrent / (F)orest : ")
+
+        if "m" in difficulty.lower():
+            print("-- The sunny meadow seems like a quiet place for a nap... --")
+            return 1  # on renvoit la valeur 1 qui correspond dans la fonction tour() à la dificulté facile
+
+        elif "t" in difficulty.lower():
+            print("-- This torrent seems so refreshing ! What about a little bath ? --")
+            return 2
+
+        elif "f" in difficulty.lower():
+            print("-- Such a nice apple right there ! Ooh ! And all those delicious mushrooms --")
+            return 3
+
+        else:
+            print("Pr. Chen ~ You can't stay in my laboratory... ")
+
+
+def wild_pok():  # recontre d'un pokémon
+    # le_pokemon = wild_pokemon[random.randint(0, len(wild_pokemon) - 1)]
+    le_pokemon = wild_pokemon[random.randint(0, 19)] # le_pokemon devient un pokemon random dans le dictionnaire wild
+    # pokemon
+    print(f"You were chilling when suddenly a wild {le_pokemon['name']}")
+    while True:
+        escape = input("Do you feel ready for a fight ? y/n : ")
+        if "y" in escape.lower():
+            if 'good_pokemon' in le_pokemon == False:
+                print("Leave us alone !")
+                print(f"But {le_pokemon['name']} inflicts you {le_pokemon['power']}")
+                starter_pokemon['life'] -= le_pokemon['power'] + starter_pokemon['loss']
+                return
+
+            elif 'good_pokemon' in le_pokemon == True:
+                print(f"{le_pokemon['name']} looks at you with curiosity")
+                return
+
+        elif "n" in escape.lower():
+            print(f"Bold of you to face {le_pokemon['name']} !")
+            if le_pokemon['good_pokemon'] == True:
+                print(f"{le_pokemon['name']} is a good pokemon. He decides to offer you a gift.")
+                print(f"{le_pokemon['name']} give you {le_pokemon['power']} HP and wish you a good walk !")
+                starter_pokemon['life'] += le_pokemon['power'] + starter_pokemon['gain']
+                print(f"{starter_pokemon['name']} have now {le_pokemon['life']} HP left")
+            else:
+                print(f"{le_pokemon['name']} is an evil pokemon. He attack you...")
+                starter_pokemon['life'] -= le_pokemon['power'] + starter_pokemon['loss']
+                if starter_pokemon['life'] <= 0:
+                    print(f"Oh no ! It seems like {starter_pokemon['name']} don't survive the attack of {le_pokemon['name']}...")
+                    print(f"You go back into Pr Chen house to heal {starter_pokemon['name']}...")
+                else:
+                    print(f"{le_pokemon['name']} inflicts you {le_pokemon['power']} HP of damage")
+                    starter_pokemon['life'] -= le_pokemon['power'] + starter_pokemon['loss']
+                    print(f"{starter_pokemon['name']} have now {le_pokemon['life']} HP left")
+        else:
+            print(f"{le_pokemon['name']} don't know what to do...")
+
+
+def direction():
+    left_right = input("You want to walk. Which way you go ? (L)eft or (R)ight ? ")
+    while True:
+        if "l" in left_right.lower():
+            print("You see a cute little flower on your left")
+            break
+
+        elif "r" in left_right.lower():
+            print("Oh ! A butterfly on the right !")
+            break
+
+        else:
+            print("Oh no ! You tripped over a root... Which way did you want to go already ? ")
+
+
+def tour(difficulty, friend):
+    i = 0
+
+    if difficulty == 1:
+        nbtour = 4
+    elif difficulty == 2:
+        nbtour = 11
+    else:
+        nbtour = 19
+
+    while i <= nbtour:
+        i += 1
+        direction()
+        wild_pok(friend, i)
+    print("Just in front of your eyes you stumble across a beautiful landscape...")
+    print(f"You and {friend['name']} make it to the end !! You won the title of ~ BEST POKEMON TRAINER ~ !")
+
+friend = starteer()
+difficulty = world()
+tour(friend, difficulty)
